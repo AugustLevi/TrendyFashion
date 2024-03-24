@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your head content here -->
+    {% block title %}
+        Products
+    {% endblock %}
+</head>
+
+{% block body %}
+
+    <div class="container text-center py-4" style="margin-top:100px;">
+
+        <h2 class="text-center">Product Page</h2>
+        {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="margin-top: -100px;">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+{% endif %}
+        
+        <a href="{% url 'view_cart' %}" class="text-primary cart-icon">
+            <i class="fa-solid fa-cart-shopping fa-2x"></i>
+        </a>
+        <div class="row">
+            {% for p in products %}
+                <div class="col-lg-3 col-md-6 mb-3 py-3">
+                    <div class="card w-100" style="cursor:pointer;">
+                        <div class="card-body">
+                            <img class="card-img-top" src="{{ p.image.url }}" alt="{{ p.name }}" height="200px">
+                            <h3 class="card-text">{{ p.name }}</h3>
+                            <span class="card-text">${{ p.price }}</span>
+                            {% if p.sizes.all %}
+                                <p>
+                                    {% for size in p.sizes.all %}
+                                        <span class="badge bg-dark">{{ size.name }}</span>
+                                    {% endfor %}
+                                </p>
+                            {% endif %}
+                            <div class="button-container">
+                                <form method="post" action="{% url 'add_to_cart' p.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></button>
+                                </form>
+                                <form method="post" action="#">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-heart"></i></button>
+                                </form>
+                                <a class="btn btn-primary" href="/buynow/{{ p.id }}/">Buy now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+    <style>
+        h3 {
+            font-size: 20px;
+        }
+
+        .button a {
+            font-size: 17px;
+            padding: 12px;
+        }
+
+        .size {
+            display: inline-block;
+            background-color: black;
+            color: white;
+            font-size: 10px;
+        }
+
+        .card {
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .button-container {
+            display: flex;
+        }
+        
+        .button-container form,
+        .button-container a {
+            margin-right: 10px;
+        }
+        .cart-icon {
+            position: fixed;
+            top: 100px;
+            right: 50px;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 991px) {
+            .card img {
+                height: 300px;
+            }
+
+            h3 {
+                font-size: 25px;
+            }
+
+            .badge {
+                font-size: 15px;
+            }
+
+            .button {
+                padding: 12px;
+            }
+
+            .btn {
+                padding: 20px;
+                margin: 13px;
+            }
+        }
+    </style>
+{% endblock %}
+</html>

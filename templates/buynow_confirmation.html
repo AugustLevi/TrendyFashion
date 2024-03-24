@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BuyNow{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-rbs5GpWq8I3Z5C9zjweM/c6ePpPgR+uU8fTCxgFJSF5ZF0sr4Wr9ZHp5d+ceDOgP" crossorigin="anonymous">
+</head>
+
+{% block body %}
+{% load static %}
+<style>
+  main {
+    margin-top: 100px;
+  }
+
+  .quantity-input {
+    width: 80px;
+  }
+</style>
+
+<main class="container bg-light">
+  <h3 class="text-center">Order Confirmation</h3>
+
+  <div class="row justify-content-center text-center">
+    <form method="post" action="{% url 'buy_now' product.id %}">
+      {% csrf_token %}
+      <ul class="list-unstyled">
+        <li><strong>Product:</strong> {{ product.name }}</li>
+        <li><strong>Price:</strong> ${{ product.price }}</li>
+      </ul>
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+        <div class="mb-3">
+          <label class="form-label">Select Size:</label>
+          {% for size in sizes %}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="size" value="{{ size.id }}" id="size_{{ size.id }}">
+              <label class="form-check-label" for="size_{{ size.id }}">
+                <span class="badge bg-dark" >{{ size.name }}</span>
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      <div class="mb-3 d-flex justify-content-center  align-items-center">
+        <label for="quantity" class="form-label quantity-label">Quantity:</label>
+        <input type="number" name="quantity" value="1" min="1" required class="form-control quantity-input">
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Your Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="contact" class="form-label">Contact Number:</label>
+        <input type="text" class="form-control" id="contact" name="contact" required>
+        <label for="address" class="form-label">Address:</label>
+        <input type="text" class="form-control" id="address" name="address" required>
+      </div>
+      <div class="mb-3">
+        <label for="payment_method" class="form-label">Payment Method:</label>
+        <select class="form-select" name="payment_method" required>
+          <option value="cod">Cash On Delivery</option>
+          <option value="kbz">KBZ Pay</option>
+          <option value="cdc">Credit Card</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm</button>
+      </div>
+
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <p>Are you sure you want to confirm this order?</p>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-0pfnZwEuNV+1eVaFBV6X/QHl3UnzI9fToDdhYO65ZFMF8sLZH+iLquvDqvmzjsbx" crossorigin="anonymous"></script>
+{% endblock %}
+</html>

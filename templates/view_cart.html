@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="container text-center" style="margin-top:100px;">
+    <h2>Your Cart</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Sub-Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if cart_items %}
+          {% for item in cart_items %}
+        <tr>
+          <td><img src="{{item.product.image.url}}" width="150" height="150"></td>
+          <td>{{ item.product.name }}</td>
+          <td>${{item.product.price}}</td>
+          <td>{{ item.quantity }} </td>
+          <td> ${{ item.total_price }}</td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    {% endif %}
+    </table>
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+    
+  </div>
+{% endblock %}

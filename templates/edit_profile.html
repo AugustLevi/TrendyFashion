@@ -1,0 +1,15 @@
+
+
+{% block content %}
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="bio">Bio:</label>
+        <textarea name="bio" rows="4" cols="50">{{ user_profile.bio }}</textarea><br>
+
+        <label for="profile_picture">Profile Picture:</label>
+        <input type="file" name="profile_picture"><br>
+
+        <button type="submit">Save changes</button>
+    </form>
+{% endblock %}

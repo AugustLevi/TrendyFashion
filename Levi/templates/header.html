@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>
+    {% block title %}
+    Header
+    {% endblock %}
+</title>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark fixed-top py-2">
+    <div class="container-fluid">
+      {%load static%}
+      <a class="navbar-brand" href="#" style="color:red;"><img src="{%static 'images/ik.png' %}" style="width:50px; height:50px;"><span style="color:blue;">T</span>rendy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h3 class ="offcanvas-title" href="#" id="offcanvasDarkNavbarLabel"style="color:red;"><img src="{%static 'images/ik.png' %}" style="width:50px; height:50px;"><span style="color:blue;">T</span>rendy</h3>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/home/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/category/">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Products</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{user.username}}'s Profile
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark text-center bg-dark text-white">
+                {% if user.userprofile %}
+                  {% if user.userprofile.profile_picture %}
+            <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" style="border-radius:50%; width:150px; height:150px; border-style:double; border:1px solid black;">
+              {%endif%}
+            <span class="dropdown-item text-white" id="displayedBio">{{ user.userprofile.bio }}</span>
+              
+              <a class="dropdown-item text-white" href="#">Username : {{ user.username }}</a>
+              <a class="dropdown-item text-white" href="#">Email : {{ user.email }}</a>
+              {%endif%}
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="nav-link text-light" href="/signout/" style="color:black;">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

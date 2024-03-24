@@ -1,0 +1,8 @@
+<!-- latest_products.html -->
+
+{% for product in popular_products %}
+    <!-- Display product details as needed -->
+    <h3>{{ product.name }}</h3>
+    <p>Wishlist Count: {{ product.wishlist_count }}</p>
+    <!-- Add other product details -->
+{% endfor %}
